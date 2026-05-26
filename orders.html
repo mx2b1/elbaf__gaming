@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elbaf Gaming purchases storage vault. View purchased license keys, track billing timelines and access verified activations.">
+    <title>My Purchased Keys Vault | Elbaf Gaming</title>
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link">Games Catalog</a>
+            <a href="cart.html" class="nav-link">Shopping Cart</a>
+            <a href="orders.html" class="nav-link active" id="navOrdersLink">My Purchases</a>
+            <a href="admin.html" class="nav-link" id="navAdminLink" style="display: none; color: var(--gold-primary);"><i class="fa-solid fa-crown"></i> Admin Console</a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- User Account Profile -->
+            <div class="user-profile-menu">
+                <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatarText">?</div>
+                    <span id="userNameText" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">Account</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                </div>
+                <!-- Dropdown Card -->
+                <div class="user-dropdown glass-panel" id="userDropdown">
+                    <!-- Username Option Display -->
+                    <div class="user-dropdown-username" id="dropdownUsernameItem" style="display: none; padding: 12px 15px; border-bottom: 1px solid rgba(255, 215, 0, 0.12); margin-bottom: 6px; text-align: left; background: rgba(255, 215, 0, 0.015);">
+                        <span style="font-size: 0.6rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;">Gamer Tag</span>
+                        <span id="dropdownUsernameText" style="font-size: 0.85rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> Loading...
+                        </span>
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownLoginItem" onclick="window.location.href='login.html'">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login / Register
+                    </div>
+                    <div class="user-dropdown-item logout" id="dropdownLogoutItem" onclick="triggerLogout()" style="display: none;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'" style="padding: 6px 16px; font-size: 0.75rem;"><i class="fa-solid fa-house" style="margin-right: 6px;"></i> Store</button>
+        </div>
+    </nav>
+
+    <!-- MAIN PURCHASES & KEY STORAGE SECTION -->
+    <main class="orders-section">
+        
+        <!-- User Profile Card -->
+        <div class="profile-card glass-panel">
+            <div class="profile-info">
+                <div class="profile-avatar-lg" id="profileAvatarBig">?</div>
+                <div class="profile-text">
+                    <h2 class="text-glow-gold" id="profileNameBig">Elbaf Gamer</h2>
+                    <p id="profileEmailBig">gamer@elbaf.com</p>
+                </div>
+            </div>
+            <div class="meta-block" style="text-align: right;">
+                <h4>Acquired Licenses</h4>
+                <p style="font-size: 1.6rem; color: var(--gold-primary); text-shadow: 0 0 10px var(--gold-glow);" id="profileOrdersCount">0 Keys</p>
+            </div>
+        </div>
+
+        <h3 style="font-size: 1.4rem; color: var(--text-main); margin-bottom: 25px;"><i class="fa-solid fa-key" style="color: var(--gold-primary); margin-right: 8px;"></i> Acquired Activation Certificates Vault</h3>
+
+        <!-- Active purchases and histories lists -->
+        <div class="orders-list" id="userOrdersListContainer">
+            <div style="text-align: center; padding: 50px;" class="glass-panel">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 15px;"></i>
+                <p>Pulling secure ledger invoice keys database...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item active" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/games-data.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script>
+        // Check Session & load user orders LTR
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = ElbafGetCurrentUser();
+            if (!currentUser) {
+                showToast("Please sign in first to access your purchased keys!", "error");
+                setTimeout(() => window.location.href = "login.html", 1500);
+                return;
+            }
+
+            // Sync User interface LTR
+            document.getElementById('profileNameBig').innerText = currentUser.name;
+            document.getElementById('profileEmailBig').innerText = currentUser.email;
+            document.getElementById('profileAvatarBig').innerText = currentUser.name.charAt(0).toUpperCase();
+            
+            // Dropdown profile details
+            document.getElementById('userNameText').innerText = currentUser.name;
+            document.getElementById('userAvatarText').innerText = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('dropdownLoginItem').style.display = 'none';
+            document.getElementById('dropdownLogoutItem').style.display = 'flex';
+            
+            // Sync Username Option in Dropdown
+            const dropdownUsernameItem = document.getElementById('dropdownUsernameItem');
+            const dropdownUsernameText = document.getElementById('dropdownUsernameText');
+            if (dropdownUsernameItem) dropdownUsernameItem.style.display = 'block';
+            if (dropdownUsernameText) {
+                const displayUsername = currentUser.username || currentUser.name.toLowerCase().replace(/\s+/g, '');
+                dropdownUsernameText.innerHTML = `<i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> @${displayUsername}`;
+            }
+
+            if (currentUser.isAdmin) {
+                document.getElementById('navAdminLink').style.display = 'flex';
+            }
+
+            // Sync Bottom HUD Navigation Dock LTR
+            const dockOrders = document.getElementById('dockOrders');
+            const dockAdmin = document.getElementById('dockAdmin');
+            const dockCartCounter = document.getElementById('dockCartCounter');
+            
+            if (dockOrders) dockOrders.style.display = 'flex';
+            if (currentUser.isAdmin) {
+                if (dockAdmin) dockAdmin.style.display = 'flex';
+            }
+            
+            const localCart = JSON.parse(localStorage.getItem('elbaf_cart')) || [];
+            let totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
+            if (dockCartCounter) dockCartCounter.innerText = totalQty;
+
+            loadUserPurchasedVaultList();
+        });
+
+        // Load personal user orders
+        function loadUserPurchasedVaultList() {
+            ElbafGetUserOrders()
+                .then(orders => {
+                    const container = document.getElementById('userOrdersListContainer');
+                    document.getElementById('profileOrdersCount').innerText = `${orders.length} Invoices`;
+                    
+                    if (orders.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 60px 20px;" class="glass-panel">
+                                <i class="fa-solid fa-key" style="font-size: 3.5rem; color: var(--text-muted); margin-bottom: 20px; opacity: 0.15;"></i>
+                                <h3 style="font-size: 1.25rem; margin-bottom: 10px;">No Acquired Keys in Your Account!</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.85rem;">Purchase keys from our 50-game catalog and they will dynamically appear here instantly.</p>
+                                <button class="btn btn-primary" onclick="window.location.href='games.html'"><i class="fa-solid fa-gamepad" style="margin-right: 8px;"></i> Explore Catalog</button>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    container.innerHTML = "";
+                    orders.forEach(order => {
+                        // Render order card details in English
+                        let itemsSummaryHtml = "";
+                        order.items.forEach(it => {
+                            const isDelivered = order.status === "Shipped" || order.status === "Completed";
+                            
+                            // Glowing golden license card
+                            let licenseKeyHtml = "";
+                            if (isDelivered && it.licenseKey && it.licenseKey !== "Pending Processing") {
+                                licenseKeyHtml = `
+                                    <div class="license-key-vault-card">
+                                        <div class="license-vault-header">
+                                            <i class="fa-solid fa-certificate" style="color: var(--gold-primary); font-size: 1.2rem; filter: drop-shadow(0 0 3px var(--gold-glow));"></i>
+                                            <div>
+                                                <span style="font-size: 0.55rem; color: var(--text-muted); display: block; text-transform: uppercase;">Digital License PIN</span>
+                                                <span class="license-key-tag" id="key-${it.id}-${order.orderId}">${it.licenseKey}</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-key-btn" onclick="copyKeyToClipboard('key-${it.id}-${order.orderId}')"><i class="fa-regular fa-copy"></i> Copy Key</button>
+                                    </div>
+                                `;
+                            } else {
+                                licenseKeyHtml = `
+                                    <div class="license-key-vault-card" style="border-style: solid; border-color: rgba(255,255,255,0.03); background: rgba(0,0,0,0.15);">
+                                        <div class="license-vault-header">
+                                            <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--text-muted); font-size: 1.2rem;"></i>
+                                            <div>
+                                                <span style="font-size: 0.55rem; color: var(--text-muted); display: block; text-transform: uppercase;">Digital License PIN</span>
+                                                <span style="font-family: monospace; font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Generating secure licenses...</span>
+                                            </div>
+                                        </div>
+                                        <span style="font-size: 0.7rem; color: var(--text-muted); font-style: italic;">Awaiting approval</span>
+                                    </div>
+                                `;
+                            }
+
+                            itemsSummaryHtml += `
+                                <div class="order-item-row" style="margin-bottom: 20px;">
+                                    <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                        <img src="${it.image}" class="order-item-thumb" alt="${it.name}">
+                                        <div class="order-item-desc">
+                                            <div class="order-item-title">${it.name}</div>
+                                            <div class="order-item-subtitle">Item Cost: $${it.price} | Qty: ${it.quantity}</div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%;">
+                                        ${licenseKeyHtml}
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        // Status styling LTR
+                        let statusClass = "status-pending";
+                        let statusText = "Pending";
+                        if (order.status === "Processing") { statusClass = "status-processing"; statusText = "Processing"; }
+                        if (order.status === "Shipped") { statusClass = "status-shipped"; statusText = "Keys Delivered"; }
+                        if (order.status === "Completed") { statusClass = "status-completed"; statusText = "Completed"; }
+
+                        // Timeline Nodes LTR
+                        let timelineNodesHtml = "";
+                        order.timeline.forEach((node, idx) => {
+                            let nodeClass = "";
+                            if (node.active) {
+                                if (node.status === "Pending") nodeClass = "active";
+                                else if (node.status === "Processing") nodeClass = "active";
+                                else if (node.status === "Shipped") nodeClass = "active-shipped";
+                                else if (node.status === "Completed") nodeClass = "active-success";
+                            }
+                            
+                            let stepText = "1";
+                            if (node.status === "Processing") stepText = "2";
+                            if (node.status === "Shipped") stepText = "3";
+                            if (node.status === "Completed") stepText = "4";
+
+                            timelineNodesHtml += `
+                                <div class="tracker-node ${nodeClass}">
+                                    <div class="tracker-dot">${stepText}</div>
+                                    <div class="tracker-label">${node.status}</div>
+                                    <span class="tracker-time">${node.active ? node.time : 'Awaiting...'}</span>
+                                </div>
+                            `;
+                        });
+
+                        container.innerHTML += `
+                            <div class="order-card glass-panel" style="margin-bottom: 30px;">
+                                <div class="order-card-header">
+                                    <div class="order-meta-info">
+                                        <div class="meta-block">
+                                            <h4>Invoice Reference</h4>
+                                            <p style="color: var(--gold-primary);">${order.orderId}</p>
+                                        </div>
+                                        <div class="meta-block">
+                                            <h4>Purchase Date</h4>
+                                            <p>${order.date}</p>
+                                        </div>
+                                        <div class="meta-block">
+                                            <h4>Transaction Total</h4>
+                                            <p style="color: var(--gold-secondary); font-weight: 800;">$${order.totalPrice}</p>
+                                        </div>
+                                        <div class="meta-block">
+                                            <h4>Payment Portal</h4>
+                                            <p style="font-size: 0.8rem; font-weight: 500;">${order.paymentMethod || "Credit Card"}</p>
+                                        </div>
+                                    </div>
+                                    <div class="order-status-badge ${statusClass}">
+                                        <i class="fa-solid fa-key" style="margin-right: 6px;"></i> ${statusText}
+                                    </div>
+                                </div>
+                                <div class="order-card-body">
+                                    <div class="order-items-summary">
+                                        ${itemsSummaryHtml}
+                                    </div>
+                                    
+                                    <h4 style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid rgba(255, 215, 0, 0.05); padding-bottom: 6px; margin-bottom: 15px;"><i class="fa-solid fa-satellite-dish" style="color: var(--gold-primary);"></i> Automated License Key Tracker</h4>
+                                    <div class="tracker-timeline">
+                                        ${timelineNodesHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    showToast("Failed to pull vault ledger: " + err.message, "error");
+                });
+        }
+
+        // Copy Key helper
+        function copyKeyToClipboard(id) {
+            const keyText = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(keyText);
+            showToast("License Pin copied! Activate on Steam/Epic/Uplay! 📋", "success");
+        }
+
+        // Dropdown toggler
+        function toggleUserDropdown() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
+
+        // Trigger Logout
+        function triggerLogout() {
+            ElbafLogout().then(() => {
+                showToast("Sign out successful. We hope to see you back!", "success");
+                setTimeout(() => window.location.href = "index.html", 1000);
+            });
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-circle-check';
+            if (type === 'error') icon = 'fa-circle-exclamation';
+            if (type === 'info') icon = 'fa-circle-info';
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toast-slide-ltr 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Close dropdown click outside LTR
+        window.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('userDropdown');
+            const profileBtn = document.getElementById('userProfileBtn');
+            if (dropdown && dropdown.classList.contains('active') && !profileBtn.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

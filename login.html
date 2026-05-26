@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Access Elbaf Gaming Store. Log in or create an account to load your keys vault and track digital activations.">
+    <title>Sign In & Register | Elbaf Gaming</title>
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'" style="padding: 6px 16px; font-size: 0.75rem;"><i class="fa-solid fa-house" style="margin-right: 6px;"></i> Return to Store</button>
+        </div>
+    </nav>
+
+    <!-- LOGIN & SIGNUP FLIP CARD -->
+    <main class="login-container-page">
+        <div class="login-card-flipper" id="cardFlipper">
+            
+            <!-- FRONT SIDE: LOGIN FORM -->
+            <div class="login-card-front glass-panel">
+                <div class="login-header">
+                    <h2 class="login-title text-glow-gold">Gamer Gateway</h2>
+                    <p class="login-subtitle">Sign in to sync your cart drawer and track key license deliveries</p>
+                </div>
+                
+                <form class="login-form" id="loginForm" onsubmit="handleUserLogin(e => e.preventDefault())">
+                    <div class="form-group">
+                        <label class="form-label" for="loginUserEmail" id="loginUserEmailLabel" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>Username or Email Address</span>
+                            <span style="font-size: 0.65rem; color: var(--gold-primary); font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="toggleLoginMethod(this)">
+                                <i class="fa-solid fa-user-ninja"></i> Switch to Username Only
+                            </span>
+                        </label>
+                        <input type="text" id="loginUserEmail" class="form-input form-input-lg" placeholder="gamer123 or yourname@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-input form-input-lg" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="height: 48px; font-size: 0.9rem; margin-top: 10px;" id="loginSubmitBtn">
+                        <i class="fa-solid fa-right-to-bracket" style="margin-right: 8px;"></i> Sign In to Vault
+                    </button>
+                </form>
+                
+                <div class="login-footer-switch">
+                    Don't have a gamer tag? <span onclick="toggleCardFlip(true)">Create an Account</span>
+                </div>
+                
+                <!-- Demo credentials display -->
+                <div style="margin-top: 15px; padding: 15px; border-radius: var(--radius-md); background: rgba(255,215,0,0.02); border: 1px solid rgba(255,215,0,0.08); text-align: center;">
+                    <p style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> <strong>Instant Sandbox Credentials:</strong></p>
+                    <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">User Account: <code>user@elbaf.com</code> / Password: <code>user</code></p>
+                    <p style="font-size: 0.72rem; color: var(--text-muted);">Admin Console: <code>admin@elbaf.com</code> / Password: <code>admin</code></p>
+                </div>
+            </div>
+            
+            <!-- BACK SIDE: SIGNUP FORM -->
+            <div class="login-card-back glass-panel">
+                <div class="login-header">
+                    <h2 class="login-title text-glow-gold">Register Gamer Tag</h2>
+                    <p class="login-subtitle">Join the Elbaf Gaming community and receive keys in seconds</p>
+                </div>
+                
+                <form class="login-form" id="signupForm" onsubmit="handleUserSignUp(e => e.preventDefault())">
+                    <div class="form-group">
+                        <label class="form-label" for="signupUsername">Gamer Username (Unique)</label>
+                        <input type="text" id="signupUsername" class="form-input form-input-lg" placeholder="gamer123" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-input form-input-lg" placeholder="Alex Mercer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" class="form-input form-input-lg" placeholder="yourname@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signupPassword">Password (6+ characters)</label>
+                        <input type="password" id="signupPassword" class="form-input form-input-lg" placeholder="••••••••" required minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-accent" style="height: 48px; font-size: 0.9rem; margin-top: 10px;" id="signupSubmitBtn">
+                        <i class="fa-solid fa-user-plus" style="margin-right: 8px;"></i> Initialize Account
+                    </button>
+                </form>
+                
+                <div class="login-footer-switch">
+                    Already registered with us? <span onclick="toggleCardFlip(false)">Sign In</span>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script>
+        // Username Dual Mode State
+        let isUsernameOnly = false;
+        function toggleLoginMethod(btn) {
+            isUsernameOnly = !isUsernameOnly;
+            const labelSpan = document.querySelector('#loginUserEmailLabel span:first-child');
+            const input = document.getElementById('loginUserEmail');
+            if (isUsernameOnly) {
+                labelSpan.innerText = "Gamer Username";
+                input.placeholder = "gamer123";
+                btn.innerHTML = `<i class="fa-solid fa-envelope"></i> Switch to Email / Dual`;
+            } else {
+                labelSpan.innerText = "Username or Email Address";
+                input.placeholder = "gamer123 or yourname@example.com";
+                btn.innerHTML = `<i class="fa-solid fa-user-ninja"></i> Switch to Username Only`;
+            }
+        }
+
+        // Check if user is already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = ElbafGetCurrentUser();
+            if (currentUser) {
+                showToast("You are already authenticated! Redirecting...", "info");
+                setTimeout(() => window.location.href = "index.html", 1500);
+            }
+
+            // Sync Bottom HUD Navigation Dock LTR
+            const dockOrders = document.getElementById('dockOrders');
+            const dockAdmin = document.getElementById('dockAdmin');
+            const dockCartCounter = document.getElementById('dockCartCounter');
+            
+            if (currentUser) {
+                if (dockOrders) dockOrders.style.display = 'flex';
+                if (currentUser.isAdmin) {
+                    if (dockAdmin) dockAdmin.style.display = 'flex';
+                }
+            } else {
+                if (dockOrders) dockOrders.style.display = 'none';
+                if (dockAdmin) dockAdmin.style.display = 'none';
+            }
+            
+            const localCart = JSON.parse(localStorage.getItem('elbaf_cart')) || [];
+            let totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
+            if (dockCartCounter) dockCartCounter.innerText = totalQty;
+
+            // Bind events safely
+            document.getElementById('loginForm').addEventListener('submit', handleUserLogin);
+            document.getElementById('signupForm').addEventListener('submit', handleUserSignUp);
+        });
+
+        // 3D Card Rotation Flip
+        function toggleCardFlip(shouldFlip) {
+            const flipper = document.getElementById('cardFlipper');
+            if (shouldFlip) {
+                flipper.classList.add('flipped');
+            } else {
+                flipper.classList.remove('flipped');
+            }
+        }
+
+        // Handle Login Submission
+        function handleUserLogin(e) {
+            e.preventDefault();
+            const userEmail = document.getElementById('loginUserEmail').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginSubmitBtn');
+            
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Authenticating data...`;
+            
+            ElbafLogin(userEmail, pass)
+                .then(user => {
+                    showToast(`Welcome back, ${user.name}! Syncing files...`, "success");
+                    setTimeout(() => {
+                        if (user.isAdmin) {
+                            window.location.href = "admin.html";
+                        } else {
+                            window.location.href = "index.html";
+                        }
+                    }, 1200);
+                })
+                .catch(error => {
+                    showToast(error.message, "error");
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-right-to-bracket" style="margin-right: 8px;"></i> Sign In to Vault`;
+                });
+        }
+
+        // Handle SignUp Submission
+        function handleUserSignUp(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const pass = document.getElementById('signupPassword').value;
+            const btn = document.getElementById('signupSubmitBtn');
+            
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Structuring profile...`;
+            
+            ElbafSignUp(username, name, email, pass)
+                .then(user => {
+                    showToast(`Account successfully established! Welcome ${name} 🚀`, "success");
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1500);
+                })
+                .catch(error => {
+                    showToast(error.message, "error");
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-user-plus" style="margin-right: 8px;"></i> Initialize Account`;
+                });
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-circle-check';
+            if (type === 'error') icon = 'fa-circle-exclamation';
+            if (type === 'info') icon = 'fa-circle-info';
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toast-slide-ltr 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elbaf Gaming Administrative Sales Console. Review invoices, dispatch game license activation codes and manage statuses.">
+    <title>Admin Dashboard Console | Elbaf Gaming</title>
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link">Games Catalog</a>
+            <a href="cart.html" class="nav-link">Shopping Cart</a>
+            <a href="orders.html" class="nav-link">My Purchases</a>
+            <a href="admin.html" class="nav-link active" id="navAdminLink" style="color: var(--gold-primary);"><i class="fa-solid fa-crown"></i> Admin Console</a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- User Account Profile -->
+            <div class="user-profile-menu">
+                <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatarText">A</div>
+                    <span id="userNameText" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">Admin</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                </div>
+                <!-- Dropdown Card -->
+                <div class="user-dropdown glass-panel" id="userDropdown">
+                    <!-- Username Option Display -->
+                    <div class="user-dropdown-username" id="dropdownUsernameItem" style="display: none; padding: 12px 15px; border-bottom: 1px solid rgba(255, 215, 0, 0.12); margin-bottom: 6px; text-align: left; background: rgba(255, 215, 0, 0.015);">
+                        <span style="font-size: 0.6rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;">Gamer Tag</span>
+                        <span id="dropdownUsernameText" style="font-size: 0.85rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> Loading...
+                        </span>
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownLoginItem" onclick="window.location.href='login.html'">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login
+                    </div>
+                    <div class="user-dropdown-item logout" id="dropdownLogoutItem" onclick="triggerLogout()" style="display: none;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'" style="padding: 6px 16px; font-size: 0.75rem;"><i class="fa-solid fa-house" style="margin-right: 6px;"></i> Store</button>
+        </div>
+    </nav>
+
+    <!-- MAIN ADMIN CONTROL CONSOLE -->
+    <main class="admin-section">
+        
+        <div style="margin-bottom: 30px;">
+            <h2 class="text-glow-gold" style="font-size: 2rem; font-weight: 800; text-transform: uppercase;"><i class="fa-solid fa-sliders" style="color: var(--gold-primary); margin-right: 8px;"></i> Tactical Key Dispatch Console</h2>
+            <p style="color: var(--text-muted);">Review global transactions, check payment channels, generate license codes, and update order statuses.</p>
+        </div>
+
+        <!-- Dashboard Stat Cards LTR -->
+        <div class="admin-stats-grid">
+            <div class="stat-card glass-panel">
+                <span class="stat-title"><i class="fa-solid fa-receipt" style="color: var(--gold-primary);"></i> Invoices Issued</span>
+                <span class="stat-value" id="statOrdersCount">0</span>
+            </div>
+            <div class="stat-card glass-panel">
+                <span class="stat-title"><i class="fa-solid fa-wallet" style="color: var(--gold-secondary);"></i> Net Revenue</span>
+                <span class="stat-value" style="color: var(--gold-secondary);" id="statRevenueCount">$0</span>
+            </div>
+            <div class="stat-card glass-panel">
+                <span class="stat-title"><i class="fa-solid fa-users" style="color: #ffd700;"></i> Verified Gamers</span>
+                <span class="stat-value" id="statUsersCount">0</span>
+            </div>
+            <div class="stat-card glass-panel">
+                <span class="stat-title"><i class="fa-solid fa-gamepad" style="color: var(--success-green);"></i> Active Catalogs</span>
+                <span class="stat-value" style="color: var(--success-green);">50</span>
+            </div>
+        </div>
+
+        <!-- Admin Table Panel LTR -->
+        <div class="admin-panel-card glass-panel">
+            <div class="panel-header">
+                <h3 style="font-size: 1.15rem; text-transform: uppercase;"><i class="fa-solid fa-list-check" style="color: var(--gold-primary); margin-right: 8px;"></i> Transactions Ledger</h3>
+                <button class="btn btn-secondary" onclick="loadAdminLedgerTableData()" style="padding: 6px 16px; font-size: 0.75rem;"><i class="fa-solid fa-rotate-right" style="margin-right: 6px;"></i> Refresh Ledger</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice Ref</th>
+                            <th>Customer Profile</th>
+                            <th>Acquired Items</th>
+                            <th>Transaction</th>
+                            <th>Date</th>
+                            <th>Current Status</th>
+                            <th>Key Dispatch Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrdersTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px;">
+                                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--gold-primary); margin-bottom: 10px;"></i>
+                                <p>Extracting secure blockchain ledger invoices...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item active" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/games-data.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script>
+        // Check Session & Security
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = ElbafGetCurrentUser();
+            if (!currentUser || !currentUser.isAdmin) {
+                alert("Unauthorized Access! This console is restricted to Elbaf administrators only.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // Sync User interface
+            document.getElementById('userNameText').innerText = currentUser.name;
+            document.getElementById('userAvatarText').innerText = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('dropdownLoginItem').style.display = 'none';
+            document.getElementById('dropdownLogoutItem').style.display = 'flex';
+
+            // Sync Username Option in Dropdown
+            const dropdownUsernameItem = document.getElementById('dropdownUsernameItem');
+            const dropdownUsernameText = document.getElementById('dropdownUsernameText');
+            if (dropdownUsernameItem) dropdownUsernameItem.style.display = 'block';
+            if (dropdownUsernameText) {
+                const displayUsername = currentUser.username || currentUser.name.toLowerCase().replace(/\s+/g, '');
+                dropdownUsernameText.innerHTML = `<i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> @${displayUsername}`;
+            }
+
+            // Sync Bottom HUD Navigation Dock LTR
+            const dockOrders = document.getElementById('dockOrders');
+            const dockAdmin = document.getElementById('dockAdmin');
+            const dockCartCounter = document.getElementById('dockCartCounter');
+            
+            if (dockOrders) dockOrders.style.display = 'flex';
+            if (currentUser.isAdmin) {
+                if (dockAdmin) dockAdmin.style.display = 'flex';
+            }
+            
+            const localCart = JSON.parse(localStorage.getItem('elbaf_cart')) || [];
+            let totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
+            if (dockCartCounter) dockCartCounter.innerText = totalQty;
+
+            loadAdminLedgerTableData();
+        });
+
+        // Load stats and orders table
+        function loadAdminLedgerTableData() {
+            ElbafGetAllOrders()
+                .then(orders => {
+                    const tbody = document.getElementById('adminOrdersTableBody');
+                    
+                    // Render Stats
+                    document.getElementById('statOrdersCount').innerText = orders.length;
+                    
+                    const totalRevenue = orders.reduce((sum, ord) => sum + parseFloat(ord.totalPrice), 0);
+                    document.getElementById('statRevenueCount').innerText = `$${totalRevenue.toFixed(2)}`;
+
+                    const registeredUsers = JSON.parse(localStorage.getItem('elbaf_users')) || [];
+                    document.getElementById('statUsersCount').innerText = registeredUsers.length || 2;
+
+                    if (orders.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                    <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.15;"></i>
+                                    <p>No transaction invoices pulled from database.</p>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    tbody.innerHTML = "";
+                    orders.forEach(order => {
+                        let itemsHtml = "";
+                        order.items.forEach(it => {
+                            const hasKey = it.licenseKey && it.licenseKey !== "Pending Processing" && it.licenseKey !== "";
+                            const keyTag = hasKey ? `<span style="font-family: monospace; color: var(--gold-primary); font-size: 0.72rem; display: block;">Key: ${it.licenseKey}</span>` : `<span style="color: var(--text-muted); font-size: 0.72rem; display: block; font-style: italic;">Keys: Processing...</span>`;
+                            itemsHtml += `<div style="margin-bottom: 6px;">• <strong>${it.name}</strong> [x${it.quantity}] ${keyTag}</div>`;
+                        });
+
+                        // Current status badges LTR
+                        let statusClass = "status-pending";
+                        let statusText = "Pending";
+                        if (order.status === "Pending") { statusClass = "status-pending"; statusText = "Pending"; }
+                        if (order.status === "Processing") { statusClass = "status-processing"; statusText = "Processing"; }
+                        if (order.status === "Shipped") { statusClass = "status-shipped"; statusText = "Keys Dispatched"; }
+                        if (order.status === "Completed") { statusClass = "status-completed"; statusText = "Completed"; }
+
+                        tbody.innerHTML += `
+                            <tr>
+                                <td style="font-weight: 700; color: var(--gold-primary);">${order.orderId}</td>
+                                <td>
+                                    <strong>${order.name}</strong>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">${order.email}</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">${order.phone}</div>
+                                </td>
+                                <td class="admin-table-items">${itemsHtml}</td>
+                                <td style="font-weight: 800; color: var(--gold-secondary);">$${order.totalPrice}<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: normal;">${order.paymentMethod || 'Credit Card'}</div></td>
+                                <td>${order.date}</td>
+                                <td><span class="order-status-badge ${statusClass}">${statusText}</span></td>
+                                <td>
+                                    <select class="status-select-admin" onchange="updateTransactionStatus('${order.orderId}', this.value)">
+                                        <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending Verification</option>
+                                        <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing Pins</option>
+                                        <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Dispatch Keys (Ship)</option>
+                                        <option value="Completed" ${order.status === 'Completed' ? 'selected' : ''}>Confirm Completed</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    showToast("Failed to compile sales ledger: " + err.message, "error");
+                });
+        }
+
+        // Change status of order
+        function updateTransactionStatus(orderId, newStatus) {
+            ElbafUpdateOrderStatus(orderId, newStatus)
+                .then(updatedOrder => {
+                    showToast(`Invoice ${orderId} updated to: ${newStatus === 'Shipped' ? 'Keys Dispatched & Transmitted!' : newStatus} successfully ✅`, "success");
+                    loadAdminLedgerTableData();
+                })
+                .catch(err => {
+                    showToast("Transaction status modification failed: " + err.message, "error");
+                });
+        }
+
+        // Dropdown toggler
+        function toggleUserDropdown() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
+
+        // Trigger Logout
+        function triggerLogout() {
+            ElbafLogout().then(() => {
+                showToast("Admin logged out successfully.", "success");
+                setTimeout(() => window.location.href = "index.html", 1000);
+            });
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-circle-check';
+            if (type === 'error') icon = 'fa-circle-exclamation';
+            if (type === 'info') icon = 'fa-circle-info';
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toast-slide-ltr 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Close dropdown click outside
+        window.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('userDropdown');
+            const profileBtn = document.getElementById('userProfileBtn');
+            if (dropdown && dropdown.classList.contains('active') && !profileBtn.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elbaf Gaming - The Premium Digital Game Key Store. Discover Anime, Sports, Adventure, RPG, Horror games and game recharge bundles in absolute black & gold luxury.">
+    <meta name="keywords" content="Elbaf Gaming, Game Keys, Steam Keys, Buy Games, PlayStation, Xbox, FC 26, Anime Games">
+    <meta name="author" content="Elbaf Gaming Team">
+    <title>Elbaf Gaming | Premium Digital Game Keys</title>
+    
+    <!-- FontAwesome & Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="games.html" class="nav-link">Games Catalog</a>
+            <a href="cart.html" class="nav-link">Shopping Cart</a>
+            <a href="orders.html" class="nav-link" id="navOrdersLink" style="display: none;">My Purchases</a>
+            <a href="admin.html" class="nav-link" id="navAdminLink" style="display: none; color: var(--gold-primary);"><i class="fa-solid fa-crown"></i> Admin Console</a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- User Account Profile -->
+            <div class="user-profile-menu">
+                <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatarText">?</div>
+                    <span id="userNameText" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">Account</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                </div>
+                <!-- Dropdown Card -->
+                <div class="user-dropdown glass-panel" id="userDropdown">
+                    <!-- Username Option Display -->
+                    <div class="user-dropdown-username" id="dropdownUsernameItem" style="display: none; padding: 12px 15px; border-bottom: 1px solid rgba(255, 215, 0, 0.12); margin-bottom: 6px; text-align: left; background: rgba(255, 215, 0, 0.015);">
+                        <span style="font-size: 0.6rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;">Gamer Tag</span>
+                        <span id="dropdownUsernameText" style="font-size: 0.85rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> Loading...
+                        </span>
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownLoginItem" onclick="window.location.href='login.html'">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login / Register
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownOrdersItem" onclick="window.location.href='orders.html'" style="display: none;">
+                        <i class="fa-solid fa-receipt"></i> My Purchases
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownAdminItem" onclick="window.location.href='admin.html'" style="display: none;">
+                        <i class="fa-solid fa-crown"></i> Admin Console
+                    </div>
+                    <div class="user-dropdown-item logout" id="dropdownLogoutItem" onclick="triggerLogout()" style="display: none;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Cart Icon -->
+            <div class="cart-icon-container" onclick="window.location.href='cart.html'">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <div class="cart-badge" id="cartCounter">0</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER -->
+   
+<br><br><br><br><br> 
+    <!-- FEATURED COLLECTIONS SECTION -->
+    <main class="catalog-section">
+        
+        <!-- Welcome banner -->
+        <div style="margin-bottom: 40px; text-align: center;">
+            <h2 class="text-glow-gold" style="font-size: 2.2rem; font-weight: 800; text-transform: uppercase;">Welcome To My
+                <span>Store</span>
+            </h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 10px auto 0;">Experience immediate license key generation and secure checkouts with multi-payment portals across our curated database of 50 prime video games.</p>
+            <div style="width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold-primary), transparent); margin: 20px auto 0;"></div>
+        </div>
+            <br><br><br><br><br><br>
+        <!-- Featured Collections Grid -->
+        <div style="margin-bottom: 50px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h3 style="font-size: 1.4rem; color: var(--gold-primary); text-transform: uppercase; border-left: 3px solid var(--gold-primary); padding-left: 10px;">Best Sellers</h3>
+                <button class="btn btn-secondary" onclick="window.location.href='games.html'" style="padding: 6px 16px; font-size: 0.75rem;">View Full Catalog (50 Games)</button>
+            </div>
+            
+            <div class="games-grid" id="featuredGrid">
+                <!-- Javascript will seed 4 premium best sellers here -->
+            </div>
+        </div>
+
+        <!-- Promotional Luxury Banner -->
+        <section class="glass-panel" style="padding: 40px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 50px; border-color: rgba(255, 215, 0, 0.2);">
+            <div style="max-width: 600px;">
+                <h3 style="font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 10px; text-transform: uppercase;">Unlock VIP License Key Deliveries</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Once your invoice goes through, our secure automated distribution portal instantly releases your license key on your purchases page. No delays, no wait times. Perfect verification guarantees.</p>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="window.location.href='games.html'" style="height: 50px; font-size: 0.9rem; padding: 0 35px;"><i class="fa-solid fa-gamepad" style="margin-right: 8px;"></i> Explore Inventory</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- DETAILS MODAL (Quick View) -->
+    <div class="modal-overlay" id="detailsModal" onclick="closeDetailsModal(event)">
+        <div class="modal-container glass-panel">
+            <span class="modal-close" onclick="closeDetailsModalDirect()">&times;</span>
+            
+            <div class="modal-header-banner">
+                <img id="modalBannerImg" src="" class="modal-banner-img" alt="Game Banner">
+                <div class="modal-banner-overlay"></div>
+                <div class="modal-header-info">
+                    <h2 class="modal-title" id="modalGameTitle">Game Title</h2>
+                    <div class="modal-meta-tags">
+                        <span class="modal-meta-tag accent" id="modalGameCategory">Category</span>
+                        <span class="modal-meta-tag" id="modalGamePlatform">Platforms</span>
+                        <span class="modal-meta-tag" style="color: #ffca28;" id="modalGameRating">★ 4.8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-desc-box">
+                    <h3>Game Description</h3>
+                    <p class="modal-desc-text" id="modalGameDesc">Detailed description...</p>
+                </div>
+                
+                <div class="modal-specs-box">
+                    <h3>Holographic System Specifications</h3>
+                    <div class="modal-specs-grid">
+                        <div class="spec-column">
+                            <h4>MINIMUM REQUIREMENT</h4>
+                            <p><strong>OS:</strong> Windows 10/11 (64-bit)</p>
+                            <p><strong>Processor:</strong> <span id="modalSpecCpu">CPU info</span></p>
+                            <p><strong>Memory:</strong> <span id="modalSpecRam">RAM info</span></p>
+                        </div>
+                        <div class="spec-column">
+                            <h4>GRAPHICS & COMPATIBILITY</h4>
+                            <p><strong>Video Card:</strong> <span id="modalSpecGpu">GPU info</span></p>
+                            <p><strong>Disk Space:</strong> <span id="modalSpecStorage">Storage info</span></p>
+                            <p><strong>ESRB Rating:</strong> <span id="modalSpecEsrb">ESRB rating</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-reviews-box">
+                    <h3>Player Testimonials</h3>
+                    <div id="modalPlayerReviews">
+                        <!-- Custom reviews injected here -->
+                    </div>
+                </div>
+                
+                <div class="modal-footer-buy">
+                    <div class="modal-footer-price" id="modalGamePrice">$0</div>
+                    <button class="btn btn-primary" id="modalAddCartBtn" style="padding: 12px 30px; font-size: 0.9rem;"><i class="fa-solid fa-cart-plus" style="margin-right: 8px;"></i> Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fa-solid fa-crown" style="color: var(--gold-primary); margin-right: 8px;"></i> ELBAF GAMING
+        </div>
+        <div>VIP Game Keys Distribution Hub. Multi-Payment Channels integration. Secure, verified, absolute speed.</div>
+        <div>Copyright © 2026 Elbaf Gaming Store. All rights reserved.</div>
+    </footer>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item active" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-shopping-bag"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/games-data.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Seed Featured Landing Catalog
+        window.addEventListener('DOMContentLoaded', () => {
+            const featuredGrid = document.getElementById('featuredGrid');
+            if (!featuredGrid) return;
+            
+            // Choose 4 best sellers (Red Dead 2, Elden Ring, Sparking Zero, Spider-man)
+            const ids = [1, 5, 11, 14];
+            featuredGrid.innerHTML = "";
+            
+            ids.forEach(id => {
+                const game = GAMES_DATA.find(g => g.id === id);
+                if (game) {
+                    featuredGrid.innerHTML += `
+                      <div class="game-card glass-panel glass-panel-interactive">
+                        <div class="card-img-container">
+                          <img src="${game.image}" class="card-img" alt="${game.name}" loading="lazy">
+                          <span class="card-category-badge">${game.category.toUpperCase().replace("-", " ")}</span>
+                        </div>
+                        <div class="card-body">
+                          <h3 class="card-title">${game.name}</h3>
+                          <p class="card-desc">${game.desc}</p>
+                          <div class="card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <span>${game.rating} (${(game.rating * 12).toFixed(0)} reviews)</span>
+                          </div>
+                          <div class="card-price-row">
+                            <span class="card-price">$${game.price}</span>
+                            <div class="card-actions">
+                              <button class="btn btn-secondary" onclick="openGameDetailsById(${game.id})">Details</button>
+                              <button class="btn btn-primary" onclick="addGameToCartById(${game.id})"><i class="fa-solid fa-cart-shopping"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elbaf Gaming Shopping Cart - Complete your premium purchase. Multiple secure payment channels including Credit Cards, PayPal, and Crypto.">
+    <title>Shopping Cart & Secure Checkout | Elbaf Gaming</title>
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link">Games Catalog</a>
+            <a href="cart.html" class="nav-link active">Shopping Cart</a>
+            <a href="orders.html" class="nav-link" id="navOrdersLink" style="display: none;">My Purchases</a>
+            <a href="admin.html" class="nav-link" id="navAdminLink" style="display: none; color: var(--gold-primary);"><i class="fa-solid fa-crown"></i> Admin Console</a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- User Account Profile -->
+            <div class="user-profile-menu">
+                <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatarText">?</div>
+                    <span id="userNameText" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">Account</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                </div>
+                <!-- Dropdown Card -->
+                <div class="user-dropdown glass-panel" id="userDropdown">
+                    <!-- Username Option Display -->
+                    <div class="user-dropdown-username" id="dropdownUsernameItem" style="display: none; padding: 12px 15px; border-bottom: 1px solid rgba(255, 215, 0, 0.12); margin-bottom: 6px; text-align: left; background: rgba(255, 215, 0, 0.015);">
+                        <span style="font-size: 0.6rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;">Gamer Tag</span>
+                        <span id="dropdownUsernameText" style="font-size: 0.85rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> Loading...
+                        </span>
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownLoginItem" onclick="window.location.href='login.html'">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login / Register
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownOrdersItem" onclick="window.location.href='orders.html'" style="display: none;">
+                        <i class="fa-solid fa-receipt"></i> My Purchases
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownAdminItem" onclick="window.location.href='admin.html'" style="display: none;">
+                        <i class="fa-solid fa-crown"></i> Admin Console
+                    </div>
+                    <div class="user-dropdown-item logout" id="dropdownLogoutItem" onclick="triggerLogout()" style="display: none;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Cart Icon -->
+            <div class="cart-icon-container" onclick="window.location.href='cart.html'">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <div class="cart-badge" id="cartCounter">0</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN MULTI-PAGE CART & SECURE CHECKOUT BODY -->
+    <main class="cart-page-grid">
+        
+        <!-- Left Column: Shopping Cart Keys List -->
+        <section class="cart-items-panel glass-panel" id="cartItemsPanel">
+            <h2 class="cart-page-title"><i class="fa-solid fa-shopping-cart text-gold"></i> Your Shopping Vault</h2>
+            
+            <div id="cartItemsList">
+                <!-- Javascript will inject cart products here -->
+            </div>
+        </section>
+        
+        <!-- Right Column: Interactive Payment & Billing Checkout -->
+        <section class="checkout-billing-panel glass-panel" id="checkoutBillingPanel" style="display: none;">
+            <h2 class="checkout-section-title"><i class="fa-solid fa-shield-halved"></i> Secure Checkout</h2>
+            
+            <!-- Items totals block -->
+            <div class="checkout-totals-block">
+                <div class="total-row">
+                    <span>Keys Subtotal:</span>
+                    <span id="checkoutSubtotal">$00.00</span>
+                </div>
+                <div class="total-row">
+                    <span>Secure Delivery Fee:</span>
+                    <span style="color: var(--success-green);">FREE</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Grand Total:</span>
+                    <span class="grand-total-val" id="checkoutGrandTotal">$00.00</span>
+                </div>
+            </div>
+            
+            <!-- Billing Info Forms -->
+            <form id="billingCheckoutForm" onsubmit="processCheckoutInvoice(event)">
+                <div class="checkout-section-title" style="font-size: 1rem; border-left-color: var(--gold-secondary);"><i class="fa-solid fa-address-card"></i> Delivery Information</div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="checkoutName">Full Name</label>
+                    <input type="text" id="checkoutName" class="form-input" placeholder="Alex Mercer" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="checkoutPhone">Phone Number</label>
+                    <input type="tel" id="checkoutPhone" class="form-input" placeholder="+1 (202) 555-0143" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="checkoutAddress">Billing / Physical Address</label>
+                    <input type="text" id="checkoutAddress" class="form-input" placeholder="221B Baker St, London, UK" required>
+                </div>
+                
+                <!-- Payment methods portal -->
+                <div class="checkout-section-title" style="font-size: 1rem; border-left-color: var(--gold-secondary); margin-top: 25px;"><i class="fa-solid fa-wallet"></i> Choose Payment Method</div>
+                
+                <div class="payment-tabs">
+                    <div class="payment-tab-btn active" id="tabCard" onclick="switchPaymentMethod('card')">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <span>Card</span>
+                    </div>
+                    <div class="payment-tab-btn" id="tabPaypal" onclick="switchPaymentMethod('paypal')">
+                        <i class="fa-brands fa-paypal"></i>
+                        <span>PayPal</span>
+                    </div>
+                    <div class="payment-tab-btn" id="tabCrypto" onclick="switchPaymentMethod('crypto')">
+                        <i class="fa-brands fa-bitcoin"></i>
+                        <span>Crypto</span>
+                    </div>
+                    <div class="payment-tab-btn" id="tabGift" onclick="switchPaymentMethod('gift')">
+                        <i class="fa-solid fa-gift"></i>
+                        <span>Voucher</span>
+                    </div>
+                </div>
+                
+                <!-- PAYMENT SCREEN 1: CREDIT CARD (LIVE INTERACTIVE BINDING) -->
+                <div class="payment-content-screen active" id="screenCard">
+                    <!-- Interactive Visual Card -->
+                    <div class="simulated-card-wrapper">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="simulated-card-chip"></div>
+                            <i class="fa-brands fa-cc-visa" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <div class="simulated-card-number" id="liveCardNumber">•••• •••• •••• ••••</div>
+                        <div class="simulated-card-footer">
+                            <div>
+                                <span style="font-size: 0.5rem; display: block; color: var(--text-muted);">Cardholder</span>
+                                <span id="liveCardName" style="color: var(--gold-primary);">Alex Mercer</span>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.5rem; display: block; color: var(--text-muted);">Expires</span>
+                                <span id="liveCardExpiry">MM/YY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Fields -->
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.7rem;" for="cardHolderNameInput">Cardholder Name</label>
+                        <input type="text" id="cardHolderNameInput" class="form-input" placeholder="Alex Mercer" oninput="updateLiveCardDetails()" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 0.7rem;" for="cardNumberInput">Card Number</label>
+                        <input type="text" id="cardNumberInput" class="form-input" placeholder="4111 2222 3333 4444" maxlength="19" oninput="updateLiveCardDetails()" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 0.7rem;" for="cardExpiryInput">Expiration Date</label>
+                            <input type="text" id="cardExpiryInput" class="form-input" placeholder="MM/YY" maxlength="5" oninput="updateLiveCardDetails()" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 0.7rem;" for="cardCvvInput">CVV / Security Code</label>
+                            <input type="password" id="cardCvvInput" class="form-input" placeholder="•••" maxlength="4" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PAYMENT SCREEN 2: PAYPAL -->
+                <div class="payment-content-screen" id="screenPaypal">
+                    <div style="text-align: center; padding: 10px 0;">
+                        <i class="fa-brands fa-paypal" style="font-size: 3.5rem; color: #003087; filter: drop-shadow(0 0 8px rgba(0,48,135,0.4)); margin-bottom: 15px;"></i>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">You will be redirected to PayPal's secure login panel to authorize this premium invoice.</p>
+                        <button type="button" class="btn btn-secondary" style="width: 100%; gap: 10px; border-color: #003087; color: #0079c1; background: rgba(0,121,193,0.05);" onclick="simulateThirdPartyLogin('PayPal')">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Connect with PayPal Secure
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- PAYMENT SCREEN 3: CRYPTOCURRENCY -->
+                <div class="payment-content-screen" id="screenCrypto">
+                    <div class="simulated-qrcode-box">
+                        <div class="simulated-qrcode">
+                            <!-- Premium mock QR code icon -->
+                            <i class="fa-solid fa-qrcode" style="font-size: 6rem; color: #000000;"></i>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.7rem; text-transform: uppercase; color: var(--gold-primary); font-weight: 800;"><i class="fa-solid fa-clock"></i> Blockchain Session Initiated</span>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" id="cryptoSessionTimer">Session expires in 14:59s</p>
+                        </div>
+                        <div style="width: 100%;">
+                            <label class="form-label" style="font-size: 0.65rem; text-align: center;">Bitcoin Deposit Wallet Address</label>
+                            <div class="giftcard-redeem-container">
+                                <input type="text" class="form-input crypto-wallet-input" id="cryptoWalletAddress" value="3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy" readonly>
+                                <button type="button" class="btn btn-secondary" style="height: 44px; padding: 0 15px;" onclick="copyBitcoinAddress()"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PAYMENT SCREEN 4: GIFT CARD / VOUCHER -->
+                <div class="payment-content-screen" id="screenGift">
+                    <div>
+                        <label class="form-label" style="font-size: 0.75rem;" for="giftCardPinInput">Prepaid Gift Card Code / Voucher Code</label>
+                        <div class="giftcard-redeem-container">
+                            <input type="text" id="giftCardPinInput" class="form-input" placeholder="ELBF-XXXX-XXXX-XXXX" maxlength="19">
+                            <button type="button" class="btn btn-secondary" style="height: 44px; padding: 0 15px;" onclick="applyGiftCode()"><i class="fa-solid fa-circle-check"></i> Apply</button>
+                        </div>
+                        <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 8px;"><i class="fa-solid fa-info-circle"></i> Enter your 16-character alphanumeric prepaid voucher pin code for instant invoice subtraction.</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; height: 50px; font-size: 0.9rem;" id="checkoutBtn">
+                    <i class="fa-solid fa-lock" style="margin-right: 8px;"></i> Confirm Payment & Deliver Keys
+                </button>
+            </form>
+        </section>
+        
+    </main>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item active" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fa-solid fa-crown" style="color: var(--gold-primary); margin-right: 8px;"></i> ELBAF GAMING
+        </div>
+        <div>VIP Game Keys Distribution Hub. Multi-Payment Channels integration. Secure, verified, absolute speed.</div>
+        <div>Copyright © 2026 Elbaf Gaming Store. All rights reserved.</div>
+    </footer>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/games-data.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Dedicated Cart page local behaviors
+        let activePaymentMethod = "Credit Card";
+        let timerInterval = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Render cart
+            renderCartPageDetails();
+            
+            // Sync user data if logged in
+            const currentUser = ElbafGetCurrentUser();
+            if (currentUser) {
+                document.getElementById('checkoutName').value = currentUser.name || "";
+                document.getElementById('liveCardName').innerText = currentUser.name || "Alex Mercer";
+                document.getElementById('cardHolderNameInput').value = currentUser.name || "";
+            }
+        });
+
+        // Render dedicated cart details
+        function renderCartPageDetails() {
+            const container = document.getElementById('cartItemsList');
+            const billingPanel = document.getElementById('checkoutBillingPanel');
+            const cartCounter = document.getElementById('cartCounter');
+            
+            if (!container) return;
+
+            let totalQty = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                  <div style="text-align: center; padding: 80px 20px; color: var(--text-muted);">
+                    <i class="fa-solid fa-cart-arrow-down" style="font-size: 4rem; color: var(--gold-secondary); opacity: 0.15; margin-bottom: 25px;"></i>
+                    <h3 style="font-size: 1.4rem; margin-bottom: 10px; color: #fff;">Your Shopping Vault is Empty!</h3>
+                    <p style="font-size: 0.85rem; margin-bottom: 25px; max-width: 320px; margin-left: auto; margin-right: auto;">Browse our premium catalog of 50 video games to acquire secure license activation keys.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='games.html'"><i class="fa-solid fa-gamepad" style="margin-right: 8px;"></i> Shop Games Catalog</button>
+                  </div>
+                `;
+                billingPanel.style.display = "none";
+                document.getElementById('cartItemsPanel').style.gridColumn = "1 / -1";
+                cartCounter.innerText = "0";
+                return;
+            }
+
+            // Reveal billing
+            document.getElementById('cartItemsPanel').style.gridColumn = "auto";
+            billingPanel.style.display = "block";
+
+            container.innerHTML = "";
+            cart.forEach(item => {
+                totalQty += item.quantity;
+                totalPrice += item.price * item.quantity;
+
+                container.innerHTML += `
+                  <div class="cart-page-item">
+                    <img src="${item.image}" class="cart-page-thumb" alt="${item.name}">
+                    <div class="cart-page-info">
+                      <span class="cart-page-name">${item.name}</span>
+                      <span class="cart-page-price">$${item.price}</span>
+                    </div>
+                    <div class="cart-page-actions">
+                      <div class="cart-page-qty">
+                        <button class="qty-btn-lg" onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                        <span style="font-weight: 700; font-size: 0.9rem;">${item.quantity}</span>
+                        <button class="qty-btn-lg" onclick="updateCartQuantity(${item.id}, 1)">+</button>
+                      </div>
+                      <i class="fa-solid fa-trash-can cart-page-remove" onclick="removeFromCart(${item.id})"></i>
+                    </div>
+                  </div>
+                `;
+            });
+
+            // Update badges and panels
+            cartCounter.innerText = totalQty;
+            const dockCartCounter = document.getElementById('dockCartCounter');
+            if (dockCartCounter) dockCartCounter.innerText = totalQty;
+            document.getElementById('checkoutSubtotal').innerText = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('checkoutGrandTotal').innerText = `$${totalPrice.toFixed(2)}`;
+        }
+
+        // Intercept updates to trigger refresh on page
+        const originalUpdateQty = window.updateCartQuantity;
+        window.updateCartQuantity = function(id, change) {
+            originalUpdateQty(id, change);
+            renderCartPageDetails();
+        };
+
+        const originalRemove = window.removeFromCart;
+        window.removeFromCart = function(id) {
+            originalRemove(id);
+            renderCartPageDetails();
+        };
+
+        // Switch Payment Tabs
+        function switchPaymentMethod(method) {
+            // Remove active classes
+            document.querySelectorAll('.payment-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.payment-content-screen').forEach(screen => screen.classList.remove('active'));
+            
+            // Clear countdown interval
+            clearInterval(timerInterval);
+
+            // Activate specific components
+            if (method === 'card') {
+                document.getElementById('tabCard').classList.add('active');
+                document.getElementById('screenCard').classList.add('active');
+                activePaymentMethod = "Credit Card";
+                // Require input fields
+                setInputsRequired(true);
+            } else if (method === 'paypal') {
+                document.getElementById('tabPaypal').classList.add('active');
+                document.getElementById('screenPaypal').classList.add('active');
+                activePaymentMethod = "PayPal";
+                setInputsRequired(false);
+            } else if (method === 'crypto') {
+                document.getElementById('tabCrypto').classList.add('active');
+                document.getElementById('screenCrypto').classList.add('active');
+                activePaymentMethod = "Cryptocurrency (BTC)";
+                setInputsRequired(false);
+                startCryptoCountdown();
+            } else if (method === 'gift') {
+                document.getElementById('tabGift').classList.add('active');
+                document.getElementById('screenGift').classList.add('active');
+                activePaymentMethod = "Gift Card / Voucher";
+                setInputsRequired(false);
+            }
+        }
+
+        // Toggle form requirements based on payment tab
+        function setInputsRequired(req) {
+            document.getElementById('cardHolderNameInput').required = req;
+            document.getElementById('cardNumberInput').required = req;
+            document.getElementById('cardExpiryInput').required = req;
+            document.getElementById('cardCvvInput').required = req;
+        }
+
+        // Live Binding for Simulated Credit Card
+        function updateLiveCardDetails() {
+            const num = document.getElementById('cardNumberInput').value.trim();
+            const holder = document.getElementById('cardHolderNameInput').value.trim();
+            const exp = document.getElementById('cardExpiryInput').value.trim();
+
+            // Format card number dynamically
+            let formattedNum = num.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let matches = formattedNum.match(/\d{4,16}/g);
+            let match = matches && matches[0] || '';
+            let parts = [];
+            for (let i = 0, len = match.length; i < len; i += 4) {
+                parts.push(match.substring(i, i + 4));
+            }
+            if (parts.length > 0) {
+                document.getElementById('cardNumberInput').value = parts.join(' ');
+                document.getElementById('liveCardNumber').innerText = parts.join(' ');
+            } else {
+                document.getElementById('liveCardNumber').innerText = "•••• •••• •••• ••••";
+            }
+
+            document.getElementById('liveCardName').innerText = holder !== "" ? holder : "Alex Mercer";
+            
+            // Card expiry formatting
+            let formattedExp = exp.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            if (formattedExp.length >= 2) {
+                document.getElementById('cardExpiryInput').value = formattedExp.substring(0, 2) + '/' + formattedExp.substring(2, 4);
+                document.getElementById('liveCardExpiry').innerText = formattedExp.substring(0, 2) + '/' + formattedExp.substring(2, 4);
+            } else if (formattedExp.length > 0) {
+                document.getElementById('liveCardExpiry').innerText = formattedExp;
+            } else {
+                document.getElementById('liveCardExpiry').innerText = "MM/YY";
+            }
+        }
+
+        // Copy wallet address
+        function copyBitcoinAddress() {
+            const input = document.getElementById('cryptoWalletAddress');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            showToast("Wallet Address copied to clipboard! 📋", "success");
+        }
+
+        // Start Crypto active timer
+        function startCryptoCountdown() {
+            let totalSec = 15 * 60;
+            const timer = document.getElementById('cryptoSessionTimer');
+            
+            timerInterval = setInterval(() => {
+                totalSec--;
+                if (totalSec <= 0) {
+                    clearInterval(timerInterval);
+                    timer.innerText = "Session expired. Reload payment.";
+                    return;
+                }
+                const min = Math.floor(totalSec / 60);
+                const sec = totalSec % 60;
+                timer.innerText = `Session expires in ${min}:${sec < 10 ? '0' + sec : sec}s`;
+            }, 1000);
+        }
+
+        // Apply Voucher Code
+        function applyGiftCode() {
+            const code = document.getElementById('giftCardPinInput').value.trim();
+            if (code === "") {
+                showToast("Please enter a valid gift card code first!", "error");
+                return;
+            }
+            showToast("Prepaid Gift Card checked! $20.00 subtracted from balance.", "success");
+            // Subtract price from totals
+            const grandTotal = document.getElementById('checkoutGrandTotal');
+            let price = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            let finalPrice = Math.max(0, price - 20);
+            grandTotal.innerText = `$${finalPrice.toFixed(2)}`;
+        }
+
+        // Simulate external login for PayPal
+        function simulateThirdPartyLogin(portal) {
+            showToast(`Connecting to secure ${portal} API sandbox...`, "info");
+            setTimeout(() => {
+                showToast(`${portal} credentials authorized successfully! ✅`, "success");
+            }, 1500);
+        }
+
+        // Process final payment Checkout
+        function processCheckoutInvoice(e) {
+            e.preventDefault();
+            
+            const customerInfo = {
+                name: document.getElementById("checkoutName").value.trim(),
+                phone: document.getElementById("checkoutPhone").value.trim(),
+                address: document.getElementById("checkoutAddress").value.trim()
+            };
+
+            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const checkoutBtn = document.getElementById("checkoutBtn");
+            
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Securing transaction channels...`;
+
+            ElbafCreateOrder(customerInfo, cart, totalPrice, activePaymentMethod)
+                .then(order => {
+                    showToast(`Invoice ${order.orderId} processed! Golden keys delivered successfully! 🚀`, "success");
+                    
+                    // Clear cart
+                    cart = [];
+                    saveCartState();
+                    
+                    setTimeout(() => {
+                        window.location.href = "orders.html";
+                    }, 1500);
+                })
+                .catch(err => {
+                    showToast("Checkout failed: " + err.message, "error");
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = `<i class="fa-solid fa-lock" style="margin-right: 8px;"></i> Confirm Payment & Deliver Keys`;
+                });
+        }
+    </script>
+</body>
+</html>

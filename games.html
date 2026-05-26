@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elbaf Gaming Inventory Catalog - Browse 50 premium digital games. Filter by Anime, Sports, Action, RPG, Horror and Top up packs.">
+    <title>Games Inventory Catalog | Elbaf Gaming</title>
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=32&q=80" type="image/x-icon" rel="icon">
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="glass-panel">
+        <div class="logo-container">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-crown logo-icon"></i>
+                ELBAF GAMING
+            </a>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link active">Games Catalog</a>
+            <a href="cart.html" class="nav-link">Shopping Cart</a>
+            <a href="orders.html" class="nav-link" id="navOrdersLink" style="display: none;">My Purchases</a>
+            <a href="admin.html" class="nav-link" id="navAdminLink" style="display: none; color: var(--gold-primary);"><i class="fa-solid fa-crown"></i> Admin Console</a>
+        </div>
+        
+        <div class="nav-actions">
+            <!-- User Account Profile -->
+            <div class="user-profile-menu">
+                <div class="user-profile-btn" id="userProfileBtn" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatarText">?</div>
+                    <span id="userNameText" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">Account</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+                </div>
+                <!-- Dropdown Card -->
+                <div class="user-dropdown glass-panel" id="userDropdown">
+                    <!-- Username Option Display -->
+                    <div class="user-dropdown-username" id="dropdownUsernameItem" style="display: none; padding: 12px 15px; border-bottom: 1px solid rgba(255, 215, 0, 0.12); margin-bottom: 6px; text-align: left; background: rgba(255, 215, 0, 0.015);">
+                        <span style="font-size: 0.6rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;">Gamer Tag</span>
+                        <span id="dropdownUsernameText" style="font-size: 0.85rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-user-ninja" style="color: var(--gold-secondary); font-size: 0.75rem;"></i> Loading...
+                        </span>
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownLoginItem" onclick="window.location.href='login.html'">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login / Register
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownOrdersItem" onclick="window.location.href='orders.html'" style="display: none;">
+                        <i class="fa-solid fa-receipt"></i> My Purchases
+                    </div>
+                    <div class="user-dropdown-item" id="dropdownAdminItem" onclick="window.location.href='admin.html'" style="display: none;">
+                        <i class="fa-solid fa-crown"></i> Admin Console
+                    </div>
+                    <div class="user-dropdown-item logout" id="dropdownLogoutItem" onclick="triggerLogout()" style="display: none;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Cart Icon -->
+            <div class="cart-icon-container" onclick="window.location.href='cart.html'">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <div class="cart-badge" id="cartCounter">0</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- INVENTORY CATALOG WRAPPER -->
+    <main class="catalog-section">
+        
+        <!-- Welcome Title -->
+        <div style="margin-bottom: 30px;">
+            <h2 class="text-glow-gold" style="font-size: 2rem; font-weight: 800; text-transform: uppercase;"><i class="fa-solid fa-gamepad" style="color: var(--gold-primary); margin-right: 8px;"></i> Prime Games</h2>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar glass-panel">
+            <div class="search-filter-row">
+                <!-- Search input -->
+                <div class="search-box">
+                    <input type="text" id="catalogSearch" class="search-input" placeholder="Search for your favorite game..." onkeyup="filterAndRenderCatalog()">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+                
+                <!-- Sort dropdown -->
+                <div class="sort-container">
+                    <label for="catalogSort" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Sort by:</label>
+                    <select id="catalogSort" class="sort-select" onchange="filterAndRenderCatalog()">
+                        <option value="featured">Featured Masterpieces</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name-az">Alphabetical: A-Z</option>
+                        <option value="name-za">Alphabetical: Z-A</option>
+                        <option value="rating">Top Rated Player Choice</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Filter Categories tabs -->
+            <div class="filter-tabs" id="categoryTabs">
+                <button class="filter-tab active" onclick="setCategoryFilter('all', this)">All Games</button>
+                <button class="filter-tab" onclick="setCategoryFilter('anime', this)">Anime & Fighting</button>
+                <button class="filter-tab" onclick="setCategoryFilter('sports', this)">Sports & Racing</button>
+                <button class="filter-tab" onclick="setCategoryFilter('action-rpg', this)">Action & RPG</button>
+                <button class="filter-tab" onclick="setCategoryFilter('horror', this)">Horror & Survival</button>
+                <button class="filter-tab" onclick="setCategoryFilter('packages', this)">Recharge Packages</button>
+            </div>
+            
+            <!-- Dynamic stats -->
+            <div class="catalog-meta">
+                <div id="catalogStatsText">Pulling vault catalog info...</div>
+                <div>Elbaf Digital Key Distribution Platform © 2026</div>
+            </div>
+        </div>
+
+        <!-- Catalog Inventory Grid -->
+        <div class="games-grid" id="gamesGrid">
+            <!-- Dynamic Game Cards injected here by app.js -->
+        </div>
+
+    </main>
+
+    <!-- SPECIFICATIONS & REVIEWS MODAL OVERLAY -->
+    <div class="modal-overlay" id="detailsModal" onclick="closeDetailsModal(event)">
+        <div class="modal-container glass-panel">
+            <span class="modal-close" onclick="closeDetailsModalDirect()">&times;</span>
+            
+            <div class="modal-header-banner">
+                <img id="modalBannerImg" src="" class="modal-banner-img" alt="Game Banner">
+                <div class="modal-banner-overlay"></div>
+                <div class="modal-header-info">
+                    <h2 class="modal-title" id="modalGameTitle">Game Name</h2>
+                    <div class="modal-meta-tags">
+                        <span class="modal-meta-tag accent" id="modalGameCategory">Category</span>
+                        <span class="modal-meta-tag" id="modalGamePlatform">Platforms</span>
+                        <span class="modal-meta-tag" style="color: #ffca28;" id="modalGameRating">★ 4.9</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-desc-box">
+                    <h3>Game Description</h3>
+                    <p class="modal-desc-text" id="modalGameDesc">Description lines...</p>
+                </div>
+                
+                <div class="modal-specs-box">
+                    <h3>Holographic System Specifications</h3>
+                    <div class="modal-specs-grid">
+                        <div class="spec-column">
+                            <h4>MINIMUM REQUIREMENT</h4>
+                            <p><strong>OS:</strong> Windows 10/11 (64-bit)</p>
+                            <p><strong>Processor:</strong> <span id="modalSpecCpu">CPU requirements</span></p>
+                            <p><strong>Memory:</strong> <span id="modalSpecRam">RAM requirements</span></p>
+                        </div>
+                        <div class="spec-column">
+                            <h4>GRAPHICS & COMPATIBILITY</h4>
+                            <p><strong>Video Card:</strong> <span id="modalSpecGpu">GPU requirements</span></p>
+                            <p><strong>Disk Space:</strong> <span id="modalSpecStorage">Disk space requirement</span></p>
+                            <p><strong>ESRB Rating:</strong> <span id="modalSpecEsrb">ESRB rating system</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-reviews-box">
+                    <h3>Player Testimonials</h3>
+                    <div id="modalPlayerReviews">
+                        <!-- Custom reviews loaded by app.js -->
+                    </div>
+                </div>
+                
+                <div class="modal-footer-buy">
+                    <div class="modal-footer-price" id="modalGamePrice">$00.00</div>
+                    <button class="btn btn-primary" id="modalAddCartBtn" style="padding: 12px 30px; font-size: 0.9rem;"><i class="fa-solid fa-cart-plus" style="margin-right: 8px;"></i> Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DYNAMIC TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fa-solid fa-crown" style="color: var(--gold-primary); margin-right: 8px;"></i> ELBAF GAMING
+        </div>
+        <div>VIP Game Keys Distribution Hub. Multi-Payment Channels integration. Secure, verified, absolute speed.</div>
+        <div>Copyright © 2026 Elbaf Gaming Store. All rights reserved.</div>
+    </footer>
+
+    <!-- BOTTOM NAVIGATION DOCK (HUD Navigation Symbols) -->
+    <div class="bottom-dock glass-panel" id="bottomDock">
+        <a href="index.html" class="dock-item" id="dockHome" data-tooltip="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="games.html" class="dock-item active" id="dockCatalog" data-tooltip="Catalog">
+            <i class="fa-solid fa-gamepad"></i>
+        </a>
+        <a href="cart.html" class="dock-item" id="dockCart" data-tooltip="Cart">
+            <i class="fa-solid fa-shopping-bag"></i>
+            <div class="dock-badge" id="dockCartCounter">0</div>
+        </a>
+        <a href="orders.html" class="dock-item" id="dockOrders" data-tooltip="Purchases" style="display: none;">
+            <i class="fa-solid fa-key"></i>
+        </a>
+        <a href="admin.html" class="dock-item" id="dockAdmin" data-tooltip="Admin" style="display: none; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i>
+        </a>
+    </div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Custom Script chain -->
+    <script src="js/games-data.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
